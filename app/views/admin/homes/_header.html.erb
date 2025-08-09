@@ -1,0 +1,8 @@
+<header class="admin-header">
+  <nav>
+    <%= link_to "会員一覧", admin_root_path %>
+    <%= link_to "通報一覧", admin_reports_path %>
+    <%= link_to "投稿一覧", admin_posts_path %>
+    <%= link_to "ログアウト", destroy_admin_session_path, method: :delete %>
+  </nav>
+</header>

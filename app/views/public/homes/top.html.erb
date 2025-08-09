@@ -1,0 +1,22 @@
+<%= render "header" %>
+  <h1>寄り道ログ  寄り道を共有するSNS</h1>
+  <p>ここでは地域のお店や隠れスポットを投稿で共有できます。</p>
+
+  <% unless user_signed_in? %>
+    <div class="cta">
+      <%= link_to "新規登録", new_user_registration_path, class: "btn" %>
+      <%= link_to "ログイン", new_user_session_path, class: "btn" %>
+      <%= button_to "ゲストログイン", guest_sign_in_path, method: :post %>
+    </div>
+  <% end %>
+
+  <section class="latest-posts">
+    <h2>新規投稿</h2>
+    <% @latest_posts.each do |post| %>
+      <div class="post-card">
+        <%= link_to post_path(post) do %>
+          <h3><%= truncate(post.title, length: 40) %></h3>
+          <P><%= truncate(post.body, length: 80) %></P>
+        <% end %>
+      </div>
+  </section>
