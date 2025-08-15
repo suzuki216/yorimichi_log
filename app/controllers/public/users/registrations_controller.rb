@@ -41,8 +41,8 @@ class Public::Users::RegistrationsController < Devise::RegistrationsController
 
   protected
   def configure_permitted_parameters
-    devise_patameter_sanitizer.permit(:sign_up, [:last_name, :first_name])
-    devise_patameter_sanitizer.permit(:account_update, keys: [:last_name, :first_name])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:last_name, :first_name])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:last_name, :first_name])
   end
 
   # If you have extra params to permit, append them to the sanitizer.
