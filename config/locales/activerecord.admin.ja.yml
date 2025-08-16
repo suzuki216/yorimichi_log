@@ -1,0 +1,19 @@
+ja:
+  activerecord:
+    models:
+      admin: "管理者"
+    attributes:
+      admin:
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード（確認）"
+    errors:
+      models:
+        admin:
+          attributes:
+            email:
+              blank: "メールアドレスを入力してください"
+            password:
+              blank: "パスワードを入力してください"
+            password_confirmation:
+              confirmation: "パスワードが一致しません"

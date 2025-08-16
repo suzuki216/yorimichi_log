@@ -1,0 +1,44 @@
+ja:
+  devise:
+    sessions:
+      signed_in: "ログインしました。"
+      signed_out: "ログアウトしました。"
+    registrations:
+      signed_up: "アカウント登録が完了しました。"
+      updated: "アカウント情報を更新しました。"
+      destroyed: "アカウント情報を削除しました。"
+    passwords:
+      send_instructions: "パスワード再設定の案内をメールで送信しました。"
+      updated: "パスワードを変更しました。"
+    confirmations:
+      confirmed: "メールアドレスの確認が完了しました。"
+      send_instructions: "確認用メールを送信しました。"
+    failure:
+      invalid: "メールアドレスまたはパスワードが違います。"
+      not_found_in_database: "メールアドレスが見つかりません。"
+      already_authenticated: "すでにログインしています"
+      unauthenticated: "ログインしてください"
+
+  errors:
+    messages:
+      not_saved: "保存できませんでした。入力内容を確認してください。"
+      blank: "入力してください"
+      confirmation: "確認が一致しません"
+      taken: "すでに使用されています"
+      too_short: "%{count}文字以上入力してください"
+
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email: {}
+            password: {}
+            password_confirmation: {}
+            last_name: {}
+            first_name: {}
+        admin:
+          attributes:
+            email: {}
+            password: {}
+            password_confirmation: {}
