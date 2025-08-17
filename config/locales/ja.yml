@@ -42,3 +42,12 @@ ja:
             email: {}
             password: {}
             password_confirmation: {}
+        post:
+          attributes:
+            title:
+              blank: "タイトルを入力してください"
+            body:
+              blank: "本文を入力してください"
+            category:
+              blank: "カテゴリを選択してください"
+            

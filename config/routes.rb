@@ -24,6 +24,9 @@ Rails.application.routes.draw do
   namespace :public do
     get 'homes/top'
     get 'homes/about'
+    resources :posts do
+      resources :post_images, only: [:destroy]
+    end
   end
 
   namespace :admin do

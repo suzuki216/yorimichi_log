@@ -1,0 +1,15 @@
+<h2>投稿詳細</h2>
+<h2><%= @post.title %></h2>
+<p><%= @post.body %></p>
+<p>カテゴリ: <%= @post.category.name || "なし" %></p>
+<p>投稿者: <%= @post.user.last_name %></p>
+
+<% @post.images.each do |img| %>
+  <%= image_tag img.variant(resize_to_fill: [200, 200]).processed %>
+<% end %>
+
+<% if @post.user == current_user %>
+  <%= link_to "編集", edit_public_post_path(@post) %>
+  <%= link_to "削除", public_post_path(@post), method: :delete,
+                     "data-confirm" => "本当に削除しますか？" %>
+<% end %>

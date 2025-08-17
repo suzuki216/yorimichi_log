@@ -1,0 +1,39 @@
+<h2>投稿編集</h2>
+
+<%= form_with(model: @post, url: public_post_path(@post), local: true) do |f| %>
+  <% if @post.errors.any? %>
+    <div class="error_messages">
+      <h3><%= @post.errors.count %> 件のエラーがあります</h3>
+      <ul>
+        <% @post.errors.each do |attribute, message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <h3>タイトル</h3>
+    <%= f.text_field :title %>
+  
+
+    <h3>本文</h3>
+    <%= f.text_area :body %>
+  
+
+  
+    <h3>カテゴリ</h3>
+    <%= f.text_field :category_name, value: @post.category&.name, placeholder: "カテゴリ名を入力" %>
+    <small>既存カテゴリはサジェスト表示されます（後で追加予定）</small>
+  
+
+    <h3>画像追加</h3>
+    <%= f.file_field :images, multiple: true, name: "post[images][]" %>
+    
+    <h3>現在の画像</h3>
+    <% @post.images.each do |img| %>
+      <%= image_tag img.variant(resize_to_fill: [200, 200]).processed %>
+      <%= check_box_tag "post[remove_image_ids][]", img.id %>
+      <%= label_tag "post[remove_image_ids][]", "削除" %>
+    <% end %>
+  <%= f.submit "更新" %>
+<% end %>
