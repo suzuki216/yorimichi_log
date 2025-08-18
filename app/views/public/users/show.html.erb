@@ -1,0 +1,10 @@
+<h2>ユーザー詳細</h2>
+
+<p>名前: <%= @user.last_name %> <%= @user.first_name %></p>
+<p>メール: <%= @user.email %></p>
+
+<% if @user == current_user %>
+  <%= link_to "プロフィール編集", edit_public_user_path(@user) %> |
+  <%= link_to "退会する", public_user_path(@user), method: :delete,
+                         "dateconfirm" => "本当に退会しますか？" %>
+<% end %>

@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   namespace :public do
     get 'homes/top'
     get 'homes/about'
+    get 'mypage', to: 'users#mypage'
+    resources :users, only: [:edit, :update, :show, :destroy]
     resources :posts do
       resources :post_images, only: [:destroy]
     end

@@ -1,0 +1,32 @@
+<h2>プロフィール編集</h2>
+
+<%= form_with(model: @user, url: public_user_path(@user), local: true, method: :patch) do |f| %>
+  <% if @user.errors.any? %>
+    <div class="error_messages">
+      <h3><%= @user.errors.count %>件のエラーがあります</h3>
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <h3>姓</h3>
+  <%= f.text_field :last_name %>
+
+  <h3>名</h3>
+  <%= f.text_field :first_name %>
+
+  <h3>メールアドレス(変更する場合のみ)</h3>
+  <%= f.email_field :email, value: @user.email, placeholder: "変更する場合のみ入力" %>
+
+
+  <h3>パスワード(変更する場合のみ)</h3>
+  <%= f.password_field :password, placeholder: "変更する場合のみ入力" %>
+
+  <h3>パスワード確認</h3>
+  <%= f.password_field :password_confirmation, placeholder: "変更する場合のみ入力" %>
+
+  <%= f.submit "更新" %>
+<% end %>
