@@ -16,4 +16,17 @@ class User < ApplicationRecord
       user.first_name = 'ユーザー'
     end
   end
+
+  def guest?
+    email == "guest@example.com"
+  end
+
+  def full_name
+    "#{last_name} #{first_name}"
+  end
+
+  def active_for_authentication?
+    super && is_active
+  end
+  
 end

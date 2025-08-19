@@ -2,14 +2,15 @@ class Public::UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only: [:edit, :update, :show, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
-
+  before_action :guest_cannot_access, only: [:mypage, :edit, :update, :destroy]
   def mypage
     @user = current_user
-    @posts = current_user.posts.order(created_at: :desc)
+    @posts = current_user.posts.order(created_at: :desc).page(params[:page]).per(6)
   end
 
   def show
-    
+    @user = User.find(params[:id])
+    @posts = @user.posts.order(created_at: :desc).page(params[:page])
   end
 
   def edit
@@ -61,5 +62,11 @@ class Public::UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:last_name, :first_name, :email, :password, :password_confirmation)
+  end
+
+  def guest_cannot_access
+    if current_user&.guest?
+      redirect_to about_path, alert: "新規登録してください。"
+    end
   end
 end

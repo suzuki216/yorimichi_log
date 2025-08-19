@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {
+  devise_for :users,skip: [:passwords], controllers: {
     registrations: 'public/users/registrations',
     sessions: 'public/users/sessions'
   },
@@ -9,12 +9,12 @@ Rails.application.routes.draw do
     sign_up: 'sign_up'
   }
 
-  devise_for :admins, controllers: {
+  devise_for :admin, skip: [:registration, :passwords],controllers: {
     sessions: 'admin/sessions'
   },
-  path: 'admin', path_names: {
-    sign_in: 'sign_in',
-    sign_out: 'sign_out'
+  path: 'yorimichi', path_names: {
+    sign_in: 'login',
+    sign_out: 'logout',
   }
   
   devise_scope :user do
@@ -26,13 +26,14 @@ Rails.application.routes.draw do
     get 'homes/about'
     get 'mypage', to: 'users#mypage'
     resources :users, only: [:edit, :update, :show, :destroy]
-    resources :posts do
+    resources :posts, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
       resources :post_images, only: [:destroy]
     end
   end
 
   namespace :admin do
     root to: 'homes#top'
+    resources :users, only: [:show, :update, :destroy]
   end
 
   root to: 'public/homes#top'

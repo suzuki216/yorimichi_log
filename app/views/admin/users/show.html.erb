@@ -1,0 +1,22 @@
+<div class="container mt-4" style="max-width: 700px;">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title mb-4">会員詳細</h2>
+  
+      <p><strong>名前：</strong><%= @user.last_name %> <%= @user.first_name %></p>
+      <p><strong>メール：</strong><%= @user.email %></p>
+      <p><strong>登録日：</strong><%= @user.created_at.strftime("%Y-%m-%d") %></p>
+  
+        <!-- 利用停止 / 利用再開 -->
+      <%= form_with(model: @user, url: admin_user_path(@user), method: :patch, class: "d-inline") do |f| %>
+        <%= f.hidden_field :is_active, value: !@user.is_active %>
+        <%= f.submit @user.is_active ? "利用停止" : "利用再開", class: "btn #{@user.is_active ? 'btn-danger' : 'btn-success'}" %>
+      <% end %>
+  
+        <!-- ユーザー削除 -->
+      <%= link_to "ユーザー削除", admin_user_path(@user), method: :delete,
+            data: { confirm: "本当に削除しますか？" }, class: "btn btn-outline-secondary ml-2" %>
+    </div>
+  </div>
+</div>
+  

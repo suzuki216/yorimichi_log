@@ -2,7 +2,7 @@ class Public::PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
-
+  before_action :guest_cannot_modify, only: [:new, :create, :edit, :update, :destroy]
   def new
     @post = Post.new
   end
@@ -58,7 +58,7 @@ class Public::PostsController < ApplicationController
   def destroy
     @post.images.purge
     @post.destroy
-    redirect_to public_posts_path, notice: "投稿を削除しました"
+    redirect_to about_path, notice: "投稿を削除しました"
   end
   
   private
@@ -73,5 +73,11 @@ class Public::PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:title, :body, :category_name, images: [])
+  end
+
+  def guest_cannot_modify
+    if current_user&.guest?
+      redirect_to about_path, alert: "ゲストユーザーは閲覧のみ可能です。新規登録してください。"
+    end
   end
 end

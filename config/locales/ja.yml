@@ -18,36 +18,43 @@ ja:
       not_found_in_database: "メールアドレスが見つかりません。"
       already_authenticated: "すでにログインしています"
       unauthenticated: "ログインしてください"
+      inactive: "このアカウントは利用停止されています"
 
   errors:
     messages:
-      not_saved: "保存できませんでした。入力内容を確認してください。"
+      not_saved: "入力内容を確認してください。"
       blank: "入力してください"
       confirmation: "確認が一致しません"
       taken: "すでに使用されています"
       too_short: "%{count}文字以上入力してください"
+    template:
+      header:
+        one: "1 件のエラーがあります"
+        other: "%{count} 件のエラーがあります"
 
   activerecord:
-    errors:
-      models:
-        user:
-          attributes:
-            email: {}
-            password: {}
-            password_confirmation: {}
-            last_name: {}
-            first_name: {}
-        admin:
-          attributes:
-            email: {}
-            password: {}
-            password_confirmation: {}
-        post:
-          attributes:
-            title:
-              blank: "タイトルを入力してください"
-            body:
-              blank: "本文を入力してください"
-            category:
-              blank: "カテゴリを選択してください"
+    attributes:
+      user:
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード（確認）"
+        last_name: "姓"
+        first_name: "名"
+      admin:
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード（確認）"
+      post:
+        title: "タイトルを"
+        body: "本文を"
+        category: "カテゴリを"
             
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M"
+      short: "%Y/%m/%d %H:%M"
+  date:
+    formats:
+      short: "%Y/%m/%d"
+
+  
