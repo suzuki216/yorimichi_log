@@ -1,0 +1,40 @@
+<div class="container my-5">
+  <h2 class="mb-4">新規投稿</h2>
+
+  <%= form_with(model: @post, url: public_posts_path, local: true, html: { multipart: true, class: "needs-validation" }) do |f| %>
+
+    <% if @post.errors.any? %>
+      <div class="alert alert-danger">
+        <h5><%= @post.errors.count %> 件のエラーがあります</h5>
+        <ul>
+          <% @post.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :title, "タイトル" %>
+      <%= f.text_field :title, class: "form-control", placeholder: "投稿タイトルを入力" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :body, "本文" %>
+      <%= f.text_area :body, class: "form-control", rows: 5, placeholder: "投稿内容を入力" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :category_name, "カテゴリ" %>
+      <%= f.text_field :category_name, value: @post.category&.name, class: "form-control", placeholder: "カテゴリ名を入力" %>
+      <small class="form-text text-muted">既存カテゴリはサジェスト表示されます（後で追加予定）</small>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :images, "画像(複数選択可)" %>
+      <%= f.file_field :images, multiple: true, name: "post[images][]", class: "form-control-file" %>
+    </div>
+
+    <%= f.submit "投稿", class: "btn btn-primary" %>
+  <% end %>
+</div>

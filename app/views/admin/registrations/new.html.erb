@@ -1,0 +1,44 @@
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow-lg rounded-lg">
+      <div class="card-header text-center bg-dark text-white">
+        <h4>管理者 新規登録</h4>
+      </div>
+
+      <div class="card-body">
+        <%= form_with model: resource, url: registration_path(resource_name), scope: resource_name, local: true do |f| %>
+          <%= render "admin/shared/error_messages", resource: resource %>
+
+          <div class="form-group">
+            <%= f.label :email %>
+            <%= f.email_field :email, class: "form-control", placeholder: "メールアドレス" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :password %>
+            <% if @minimum_password_length %>
+              <small class="form-text text-muted">(<%= @minimum_password_length %> 文字以上)</small>
+            <% end %>
+            <%= f.password_field :password, class: "form-control", autocomplete: "new-password", placeholder: "パスワード" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :password_confirmation %>
+            <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password", placeholder: "確認用パスワード" %>
+          </div>
+
+          <div class="d-grid">
+            <%= f.submit "登録", class: "btn btn-success btn-block" %>
+          </div>
+        <% end %>
+
+        <hr>
+        <div class="text-center">
+          <%= link_to "ログインはこちら", new_session_path(resource_name) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "admin/shared/links" %>

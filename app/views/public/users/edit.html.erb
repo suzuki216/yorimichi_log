@@ -1,0 +1,48 @@
+<h2 class="mb-4">プロフィール編集</h2>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <%= form_with(model: @user, url: public_user_path(@user), local: true, method: :patch) do |f| %>
+      
+      <% if @user.errors.any? %>
+        <div class="alert alert-danger">
+          <h5><%= @user.errors.count %>件のエラーがあります</h5>
+          <ul>
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="mb-3">
+        <%= f.label :last_name, "姓", class: "form-label fw-bold" %>
+        <%= f.text_field :last_name, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :first_name, "名", class: "form-label fw-bold" %>
+        <%= f.text_field :first_name, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :email, "メールアドレス（変更する場合のみ）", class: "form-label fw-bold" %>
+        <%= f.email_field :email, value: @user.email, placeholder: "変更する場合のみ入力", class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :password, "パスワード（変更する場合のみ）", class: "form-label fw-bold" %>
+        <%= f.password_field :password, placeholder: "変更する場合のみ入力", class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :password_confirmation, "パスワード確認", class: "form-label fw-bold" %>
+        <%= f.password_field :password_confirmation, placeholder: "変更する場合のみ入力", class: "form-control" %>
+      </div>
+
+      <div class="text-center">
+        <%= f.submit "更新", class: "btn btn-primary px-4" %>
+      </div>
+    <% end %>
+  </div>
+</div>

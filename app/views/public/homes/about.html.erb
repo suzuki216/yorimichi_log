@@ -1,0 +1,55 @@
+<div class="container my-5">
+  <h1 class="mb-4">YorimichiLogについて</h1>
+
+  <p>YorimichiLogは、地域の隠れたお店やスポットを発見し、共有することで、みんなの寄り道体験を豊かにするSNSです。</p>
+
+  <div class="row my-5">
+    <div class="col-md-6">
+      <%= image_tag 'ramen-7238665_640.jpg', alt: 'ラーメンの写真', class: 'img-fluid rounded' %>
+    </div>
+    <div class="col-md-6">
+      <h3>アプリの特徴</h3>
+      <ul>
+        <li>画像付き投稿で地域の魅力を直感的に伝える</li>
+        <li>フォローやいいねでおすすめスポットを共有</li>
+        <li>通報・管理機能で安心して利用可能</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row my-5">
+    <div class="col-md-6 order-md-2">
+      <%= image_tag 'kobe-4975863_640.jpg', alt: '風景', class: 'img-fluid rounded' %>
+    </div>
+    <div class="col-md-6 order-md-1">
+      <h3>使い方のイメージ</h3>
+      <p>スポットを見つけたら投稿してみましょう。写真とコメントを添えるだけで、誰かの寄り道体験につながります。</p>
+    </div>
+  </div>
+
+  <h3 class="text-center my-4">あなたの発見を共有してみませんか？</h3>
+  <p class="text-center">日常の中で偶然出会った素敵なスポットが、誰かの新しい体験になるかもしれません。</p>
+
+  <div class="row">
+    <% @posts.each do |post| %>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <% if post.images.attached? %>
+            <%= image_tag post.images.first, class: "card-img-top" %>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= link_to post.title, public_post_path(post) %></h5>
+          </div>
+          <div class="card-footer text-muted">
+            投稿者: <%= link_to post.user.full_name, public_user_path(post.user) %><br>
+            投稿日: <%= l(post.created_at.to_date, format: :short) %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <%= paginate @posts %>
+  </div>
+</div>

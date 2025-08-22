@@ -1,0 +1,42 @@
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow-lg rounded-lg">
+      <div class="card-header text-center bg-primary text-white">
+        <h4>ログイン</h4>
+      </div>
+
+      <div class="card-body">
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <div class="form-group">
+            <%= f.label :email %>
+            <%= f.email_field :email, class: "form-control", autofocus: true, autocomplete: "email" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :password %>
+            <%= f.password_field :password, class: "form-control", autocomplete: "current-password" %>
+          </div>
+
+          <% if devise_mapping.rememberable? %>
+            <div class="form-check mb-3">
+              <%= f.check_box :remember_me, class: "form-check-input" %>
+              <%= f.label :remember_me, class: "form-check-label" %>
+            </div>
+          <% end %>
+
+          <div class="d-grid">
+            <%= f.submit "ログイン", class: "btn btn-success btn-block" %>
+          </div>
+        <% end %>
+
+        <hr>
+        <div class="text-center">
+          <%= link_to "新規登録はこちら", new_registration_path(resource_name) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<%= render "public/users/shared/links" %>
