@@ -95,14 +95,6 @@ ActiveRecord::Schema.define(version: 2025_08_22_070644) do
     t.index ["visitor_id"], name: "index_notifications_on_visitor_id"
   end
 
-  create_table "post_images", force: :cascade do |t|
-    t.integer "post_id", null: false
-    t.string "image"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["post_id"], name: "index_post_images_on_post_id"
-  end
-
   create_table "posts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "category_id"
@@ -147,7 +139,6 @@ ActiveRecord::Schema.define(version: 2025_08_22_070644) do
   add_foreign_key "favorites", "users"
   add_foreign_key "notifications", "users", column: "visited_id"
   add_foreign_key "notifications", "users", column: "visitor_id"
-  add_foreign_key "post_images", "posts"
   add_foreign_key "posts", "categories"
   add_foreign_key "posts", "users"
   add_foreign_key "reports", "posts"
