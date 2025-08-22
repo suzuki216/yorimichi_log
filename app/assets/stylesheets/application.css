@@ -14,5 +14,6 @@
  *= require_self
  */
 body {
-  background-image: image-url("japan-5029658_1280.jpg")
+  background-image: image-url("japan-5029658_1280.jpg");
 }
+
