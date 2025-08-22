@@ -7,9 +7,8 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :reports, dependent: :destroy
-
   has_many_attached :images
-
+  
   attr_accessor :category_name, :remove_image_ids
 
   validates :title, :body, presence: true
