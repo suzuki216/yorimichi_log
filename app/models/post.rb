@@ -7,9 +7,16 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :reports, dependent: :destroy
-
   has_many_attached :images
-
+  # キーワード検索
+  scope :search_by_keyword, -> (keyword) {
+    where("title LIKE :q OR body LIKE :q", q: "%#{keyword}%") if keyword.present?
+  }
+  # カテゴリ検索
+  scope :search_by_category, -> (category_id) {
+    where(category_id: category_id) if category_id.present?
+  }
+  
   attr_accessor :category_name, :remove_image_ids
 
   validates :title, :body, presence: true
