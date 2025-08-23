@@ -1,8 +1,8 @@
 class Public::PostsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
   before_action :guest_cannot_modify, only: [:new, :create, :edit, :update, :destroy]
+  
   def new
     @post = Post.new
   end
@@ -68,7 +68,9 @@ class Public::PostsController < ApplicationController
   end
 
   def correct_user
-    redirect_to posts_path, alert: "権限がありません" unless @post.user == current_user
+    unless @post.user == current_user
+      redirect_to public_homes_about_path, alert: "権限がありません"
+    end
   end
 
   def post_params

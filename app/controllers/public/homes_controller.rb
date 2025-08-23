@@ -1,4 +1,6 @@
 class Public::HomesController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:top]
+  
   def top
     @posts = Post.includes(:user, images_attachments: :blob).order(created_at: :desc).page(params[:page]).per(30)
   end

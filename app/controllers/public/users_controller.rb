@@ -57,7 +57,7 @@ class Public::UsersController < ApplicationController
   end
 
   def correct_user
-    redirect_to root_path, alert: "権限がありません" unless @user == current_user
+    redirect_to public_user_path(current_user), alert: "権限がありません" unless @user == current_user
   end
 
   def user_params
