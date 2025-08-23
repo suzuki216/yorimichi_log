@@ -25,10 +25,9 @@ Rails.application.routes.draw do
     get 'homes/top'
     get 'homes/about'
     get 'mypage', to: 'users#mypage'
+    get 'users/search', to: 'users#search', as: 'user_search'
     resources :users, only: [:edit, :update, :show, :destroy]
-    resources :posts, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
-      resources :post_images, only: [:destroy]
-    end
+    resources :posts, only: [:index, :show, :new, :create, :edit, :update, :destroy]
   end
 
   namespace :admin do

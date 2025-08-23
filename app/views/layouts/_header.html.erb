@@ -14,11 +14,25 @@
           <li class="nav-item"><%= link_to '投稿一覧', '#', class: "nav-link" %></li>
           <li class="nav-item"><%= link_to 'ログアウト', destroy_admin_session_path, method: :delete, class: "nav-link" %></li>
         <% elsif user_signed_in? %>
+          <%= form_with url: about_path, method: :get, local: true, class: "form-inline my-2 my-lg-0" do |f| %>
+            <%= f.text_field :keyword,
+                  placeholder: "キーワード検索",
+                  class: "form-control mr-sm-2" %>
+            <%= f.text_field :category_name,
+                  placeholder: "カテゴリ検索",
+                  class: "form-control mr-sm-2" %>
+            <%= f.submit "検索", class: "btn btn-outline-success my-2 my-sm-0" %>
+          <% end %>
+
+          <%= form_with url: public_user_search_path, method: :get, local: true, class: "form-inline" do |f| %>
+            <%= f.text_field :user_keyword, placeholder: "ユーザー名検索", class: "form-control mr-sm-2" %>
+            <%= f.submit "検索", class: "btn btn-outline-primary my-2 my-sm-0" %>
+          <% end %>
+      
           <li class="nav-item"><%= link_to 'about', about_path, class: "nav-link" %></li>
           <li class="nav-item"><%= link_to 'マイページ', public_mypage_path, class: "nav-link" %></li>
           <li class="nav-item"><%= link_to '新規投稿', new_public_post_path, class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to 'ユーザー検索', '#', class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to '検索', '#', class: "nav-link" %></li>
+
           <li class="nav-item"><%= link_to '通知一覧', '#', class: "nav-link" %></li>
           <li class="nav-item"><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "nav-link" %></li>
         <% else %>
