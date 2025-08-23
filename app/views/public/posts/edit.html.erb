@@ -41,7 +41,7 @@
         <div class="row">
           <% @post.images.each do |img| %>
             <div class="col-6 col-md-3 mb-3 text-center">
-              <%= image_tag img.variant(resize_to_fill: [200, 200]).processed, class: "img-fluid rounded mb-2" %>
+              <%= image_tag img, class: "img-fluid rounded mb-2" %>
               <div class="form-check">
                 <%= check_box_tag "post[remove_image_ids][]", img.id, false, class: "form-check-input", id: "remove_image_#{img.id}" %>
                 <%= label_tag "remove_image_#{img.id}", "削除", class: "form-check-label" %>
