@@ -29,6 +29,7 @@
             </div>
             <div class="card-footer text-muted">
               投稿日: <%= l(post.created_at, format: :short) %>
+              コメント: <%= post.comments.count %> 件
             </div>
           </div>
         </div>

@@ -69,6 +69,7 @@ class Public::UsersController < ApplicationController
   end
 
   def correct_user
+    return if current_user.guest?
     redirect_to public_user_path(current_user), alert: "権限がありません" unless @user == current_user
   end
 
