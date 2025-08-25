@@ -24,7 +24,7 @@ class Public::HomesController < ApplicationController
       @posts = @posts.joins(:category)
                      .where("categories.name LIKE ?", "%#{@category_name}%")
     end
-    @posts = @posts.includes(:user, :category, images_attachments: :blob)
+    @posts = @posts.includes(:user, :comments, :category, images_attachments: :blob)
                    .order(created_at: :desc)
                    .page(params[:page])
                    .per(25)
