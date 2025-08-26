@@ -29,7 +29,7 @@
             <tr>
               <td class="align-middle">
                 <% if post.images.attached? %>
-                  <%= image_tag post.images.first, class: "img-thumbnail" %>
+                  <%= image_tag post.images.first.variant(resize: '400x400'), class: "img-thumbnail" %>
                 <% else %>
                   <span class="text-muted">画像なし</span>
                 <% end %>
