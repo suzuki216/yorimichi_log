@@ -42,7 +42,8 @@
           </div>
           <div class="card-footer text-muted">
             投稿者: <%= link_to post.user.full_name, public_user_path(post.user) %><br>
-            投稿日: <%= l(post.created_at.to_date, format: :short) %>
+            投稿日: <%= l(post.created_at.to_date, format: :short) %><br>
+            コメント: <%= post.comments.count %> 件
           </div>
         </div>
       </div>

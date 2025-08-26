@@ -50,6 +50,18 @@ class Public::UsersController < ApplicationController
     redirect_to new_user_registration_path, notice: "退会しました"
   end
 
+  def search
+    @user_keyword = params[:user_keyword]
+
+    @users = if @user_keyword.present?
+      User.where("last_name LIKE ? OR first_name LIKE ?", "%#{@user_keyword}%", "%#{@user_keyword}%")
+          .includes(posts: [images_attachments: :blob])
+          .order(created_at: :desc)
+    else
+      []
+    end
+  end
+
   private
 
   def set_user
@@ -57,6 +69,7 @@ class Public::UsersController < ApplicationController
   end
 
   def correct_user
+    return if current_user.guest?
     redirect_to public_user_path(current_user), alert: "権限がありません" unless @user == current_user
   end
 

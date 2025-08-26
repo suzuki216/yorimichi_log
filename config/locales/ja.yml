@@ -48,6 +48,8 @@ ja:
         title: "タイトルを"
         body: "本文を"
         category: "カテゴリを"
+      comment:
+        content: "コメントを"
             
   time:
     formats:
@@ -57,4 +59,3 @@ ja:
     formats:
       short: "%Y/%m/%d"
 
-  

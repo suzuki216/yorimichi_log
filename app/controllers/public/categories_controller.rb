@@ -1,13 +1,11 @@
 class Public::CategoriesController < ApplicationController
-  def seach
-    if params[:keyword].present?
-      @categories = Category.where("name LIKE ?", "%#{params[:keyword]}%")
-    else
-      @categories = Category.none
-    end
-  
-    respond_to do |format|
-      format.json { render json: @categories.pluck(:id, :name) }
-    end
+  def search
+    keyword = params[:keyword]
+    categories = if keyword.present?
+                   Category.where("name LIKE ?", "%#{keyword}%").limit(10)
+                 else
+                   Category.none
+                 end
+    render json: categories.pluck(:id, :name)
   end
 end
