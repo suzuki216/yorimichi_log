@@ -26,7 +26,7 @@
     <div class="row mb-4">
       <% @post.images.each do |img| %>
         <div class="col-6 col-md-3 mb-3">
-          <%= image_tag img, class: "img-fluid rounded shadow-sm", alt: @post.title %>
+          <%= image_tag img,variant[resize:'300x300'] class: "img-fluid rounded shadow-sm", alt: @post.title %>
         </div>
       <% end %>
     </div>
