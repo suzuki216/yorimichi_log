@@ -74,7 +74,7 @@ class Public::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:last_name, :first_name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:last_name, :first_name, :email, :password, :password_confirmation, :image, :introduction)
   end
 
   def guest_cannot_access

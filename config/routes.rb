@@ -26,7 +26,11 @@ Rails.application.routes.draw do
     get 'homes/about'
     get 'mypage', to: 'users#mypage'
     get 'users/search', to: 'users#search', as: 'user_search'
-    resources :users, only: [:edit, :update, :show, :destroy]
+    resources :users, only: [:edit, :update, :show, :destroy] do
+      resource :follows, only: [:create, :destroy]
+          get "followings" => "follows#followings", as: "followings"
+  	      get "followers" => "follows#followers", as: "followers"
+    end
     resources :posts, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
       resources :comments, only: [:create, :destroy]
       resource :favorites, only: [:create, :destroy]

@@ -31,13 +31,29 @@
 
   <% if @post.images.attached? %>
     <div class="row mb-4">
-      <% @post.images.each do |img| %>
+      <% @post.images.each_with_index do |img, index| %>
         <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
-          <%= image_tag img.variant(resize:'400x400'), class: "w-100 rounded shadow-sm", alt: @post.title %>
+          <%= image_tag img.variant(resize:'400x400'), class: "w-100 rounded shadow-sm clickable-image", alt: @post.title, data: { toggle: "modal", target: "#imageModal", "img-url": url_for(img) } %>
+          <i class="fas fa-search position-absolute" style="bottom:8px; right:8px; color:white; text-shadow:0 0 5px black; cursor:pointer;"data-toggle="modal"data-target="#imageModal"data-img-url="<%= url_for(img) %>"></i>
         </div>
       <% end %>
     </div>
   <% end %>
+
+  <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content bg-transparent border-0 position-relative p-0">
+        <button type="button" class="position-absolute border-0 bg-transparent text-white"
+                data-dismiss="modal"
+                style="top:-30px; right:-30px; z-index:1051; font-size:2rem; cursor:pointer;">
+          ❌
+        </button>
+        <div class="modal-body p-0">
+          <img src="" class="img-fluid" id="modalImage" alt="拡大画像">
+        </div>
+      </div>
+    </div>
+  </div>
 
   <% if @post.user == current_user %>
     <div class="mb-4">
