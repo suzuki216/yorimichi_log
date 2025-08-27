@@ -1,0 +1,42 @@
+<div class="container my-5">
+  <h2 class="mb-4"><%= current_user.full_name %>さんがいいねした投稿一覧</h2>
+
+  <% if @favorite_posts.any? %>
+    <div class="row">
+      <% @favorite_posts.each do |post| %>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <% if post.images.attached? %>
+              <%= image_tag post.images.first.variant(resize: '400x400'), class: "card-img-top", alt: post.title %>
+            <% end %>
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= link_to post.title, public_post_path(post) %>
+              </h5>
+              <p class="card-text mb-1">
+                投稿者: <%= post.user.full_name %>
+              </p>
+              <p class="card-text mb-1">
+                投稿日: <%= post.created_at.strftime("%Y/%m/%d") %>
+              </p>
+              <p class="card-text mb-1">
+                コメント: <%= post.comments.count %> 件
+              </p>
+            </div>
+            <div class="card-footer bg-white border-top-0">
+              <div id="favorite_btn_<%= post.id %>">
+                <%= render "public/favorites/btn", post: post %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <%= paginate @favorite_posts %>
+    </div>
+  <% else %>
+    <p class="text-center text-muted">まだいいねした投稿はありません。</p>
+  <% end %>
+</div>

@@ -17,7 +17,14 @@
       </tr>
       <tr>
         <th scope="row">本文</th>
-        <td><%= simple_format(@post.body) %></td>
+        <td>
+          <%= simple_format(@post.body) %>
+          <div class="mt-3">
+            <div id="favorite_btn_<%= @post.id%>">
+              <%= render "public/favorites/btn", post: @post %>
+            </div>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -25,8 +32,8 @@
   <% if @post.images.attached? %>
     <div class="row mb-4">
       <% @post.images.each do |img| %>
-        <div class="col-6 col-md-3 mb-3">
-          <%= image_tag img, class: "img-fluid rounded shadow-sm", alt: @post.title %>
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+          <%= image_tag img.variant(resize:'400x400'), class: "w-100 rounded shadow-sm", alt: @post.title %>
         </div>
       <% end %>
     </div>

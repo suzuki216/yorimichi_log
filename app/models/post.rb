@@ -7,6 +7,7 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :reports, dependent: :destroy
+  has_many :favorites, dependent: :destroy
   has_many_attached :images
   
   attr_accessor :category_name, :remove_image_ids
@@ -14,6 +15,10 @@ class Post < ApplicationRecord
   validates :title, :body, presence: true
 
   after_save :remove_selected_images
+
+  def favorited_by?(user)
+    favorites.exists?(user_id: user.id)
+  end
 
   private
 

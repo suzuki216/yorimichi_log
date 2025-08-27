@@ -27,7 +27,6 @@
     <div class="form-group">
       <%= f.label :category_name, "カテゴリ" %>
       <%= f.text_field :category_name, value: @post.category&.name, placeholder: "カテゴリ名を入力", class: "form-control" %>
-      <small class="form-text text-muted">既存カテゴリはサジェスト表示されます（後で追加予定）</small>
     </div>
 
     <div class="form-group">
@@ -41,7 +40,7 @@
         <div class="row">
           <% @post.images.each do |img| %>
             <div class="col-6 col-md-3 mb-3 text-center">
-              <%= image_tag img, class: "img-fluid rounded mb-2" %>
+              <%= image_tag img.variant(resize: '400x400'), class: "w-100 rounded mb-2" %>
               <div class="form-check">
                 <%= check_box_tag "post[remove_image_ids][]", img.id, false, class: "form-check-input", id: "remove_image_#{img.id}" %>
                 <%= label_tag "remove_image_#{img.id}", "削除", class: "form-check-label" %>
