@@ -8,6 +8,7 @@ class Public::CommentsController < ApplicationController
     @comment = @post.comments.build(comment_params)
     @comment.user = current_user
     if @comment.save
+      @post.create_notification_comment!(current_user, @comment.id)
       redirect_to public_post_path(@post), notice: "コメントを投稿しました"
     else
       @comments = @post.comments.includes(:user)
