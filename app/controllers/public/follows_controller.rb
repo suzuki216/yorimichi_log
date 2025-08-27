@@ -2,6 +2,11 @@ class Public::FollowsController < ApplicationController
   def create
     user = User.find(params[:user_id])
     current_user.follow(user)
+    user.active_notifications.create(
+      visitor_id: current_user.id,
+      visited_id: user.id,
+      action: "follow"
+    )
     redirect_to public_user_path(user), notice: "#{user.full_name}さんをフォローしました"
   end
 
