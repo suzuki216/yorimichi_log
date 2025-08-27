@@ -1,0 +1,66 @@
+<div class="container my-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>通知一覧</h2>
+    <% if @notifications.any? %>
+      <%= link_to "すべて削除", destroy_all_public_notifications_path, 
+                  method: :delete, 
+                  data: { confirm: "本当に全ての通知を削除しますか？" }, 
+                  class: "btn btn-sm btn-danger" %>
+    <% end %>
+  </div>
+  
+  <% if @notifications.any? %>
+    <ul class="list-group">
+      <% @notifications.each do |notification| %>
+        <li class="list-group-item d-flex justify-content-between align-items-start px-3 py-2">
+            
+          <div class="d-flex align-items-start">
+            <% if notification.visitor.image.attached? %>
+              <%= image_tag notification.visitor.image.variant(resize: "50x50"), 
+                            class: "rounded-circle mr-3" %>
+            <% else %>
+              <%= image_tag "no_image.jpg", class: "rounded-circle mr-3", size: "50x50" %>
+            <% end %>
+
+            <div class="d-flex flex-column">
+              <div>
+                <strong>
+                  <%= link_to notification.visitor.full_name, public_user_path(notification.visitor) %>
+                </strong>
+                <% case notification.action %>
+                <% when "favorite" %>
+                  さんが <%= link_to "あなたの投稿", public_post_path(notification.post) %> に
+                  <span class="text-danger"><i class="fas fa-heart"></i> いいね</span>しました
+                <% when "comment" %>
+                  さんが <%= link_to "あなたの投稿", public_post_path(notification.post, anchor: "comment-#{notification.comment_id}") %> に
+                  <span class="text-primary"><i class="fas fa-comment"></i> コメント</span>しました
+                <% when "follow" %>
+                  さんがあなたをフォローしました
+                <% end %>
+              </div>
+  
+              <% if notification.post.present? %>
+                <div class="text-muted small">
+                  「<%= notification.post.title.truncate(20) %>」
+                </div>
+              <% end %>
+  
+              <small class="text-muted">
+                <%= time_ago_in_words(notification.created_at) %>前
+              </small>
+            </div>
+          </div>
+  
+          <div class="ml-3">   
+            <%= link_to "×", public_notification_path(notification), 
+                        method: :delete, 
+                        data: { confirm: "本当に削除しますか？" }, 
+                        class: "btn btn-sm btn-outline-danger" %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>通知はまだありません</p>
+  <% end %>
+</div>

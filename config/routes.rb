@@ -36,6 +36,11 @@ Rails.application.routes.draw do
       resource :favorites, only: [:create, :destroy]
     end
     resources :favorites, only: [:index]
+    resources :notifications, only: [:index, :destroy] do
+      collection do
+        delete :destroy_all
+      end
+    end
   end
 
   namespace :admin do
