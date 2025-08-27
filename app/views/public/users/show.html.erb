@@ -1,5 +1,5 @@
 <div class="container my-5">
-  <h2>ユーザー詳細</h2>
+  <h3><%= @user.last_name %> <%= @user.first_name %> さんの投稿一覧</h3>
   <div class="card mb-4">
     <div class="card-body">
       <p><strong>名前:</strong> <%= @user.last_name %> <%= @user.first_name %></p>
@@ -12,7 +12,7 @@
     </div>
   </div>
 
-  <h3><%= @user.last_name %> <%= @user.first_name %> さんの投稿一覧</h3>
+  
   <% if @posts.any? %>
     <div class="row">
       <% @posts.each do |post| %>
@@ -28,8 +28,11 @@
               <p class="card-text"><%= truncate(post.body, length: 50) %></p>
             </div>
             <div class="card-footer text-muted">
-              投稿日: <%= l(post.created_at, format: :short) %>
-              コメント: <%= post.comments.count %> 件
+              投稿日: <%= post.created_at.strftime("%Y/%m/%d") %><br>
+              コメント: <%= post.comments.count %> 件<br>
+              <div id="favorite_btn_<%= post.id %>">
+                <%= render "public/favorites/btn", post: post %>
+              </div>
             </div>
           </div>
         </div>

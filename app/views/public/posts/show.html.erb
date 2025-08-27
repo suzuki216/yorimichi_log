@@ -17,7 +17,14 @@
       </tr>
       <tr>
         <th scope="row">本文</th>
-        <td><%= simple_format(@post.body) %></td>
+        <td>
+          <%= simple_format(@post.body) %>
+          <div class="mt-3">
+            <div id="favorite_btn_<%= @post.id%>">
+              <%= render "public/favorites/btn", post: @post %>
+            </div>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>

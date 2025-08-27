@@ -6,8 +6,10 @@ class User < ApplicationRecord
 
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_posts, through: :favorites, source: :post
+
   validates :email, presence: true, uniqueness: true
-  
   validates :last_name, presence: true
   validates :first_name, presence: true
 
