@@ -60,6 +60,13 @@ class Public::PostsController < ApplicationController
     @post.destroy
     redirect_to about_path, notice: "投稿を削除しました"
   end
+
+  def feed
+    @posts = Post.where(user_id: current_user.followings.pluck(:id))
+                 .order(create_at: :desc)
+                 .page(params[:page])
+                 .per(10)
+  end
   
   private
 

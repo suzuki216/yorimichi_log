@@ -1,0 +1,25 @@
+class Public::FollowsController < ApplicationController
+  def create
+    user = User.find(params[:user_id])
+    current_user.follow(user)
+    redirect_to public_user_path(user), notice: "#{user.full_name}さんをフォローしました"
+  end
+
+  def destroy
+    user = User.find(params[:user_id])
+    current_user.unfollow(user)
+    redirect_to public_user_path(user), notice: "#{user.full_name}さんのフォローを解除しました"
+  end
+
+  def followings
+    @user = User.find(params[:user_id])
+    @users = @user.followings
+    @posts = Post.where(user_id: @user.followings.select(:id)).order(create_at: :desc).page(params[:page]).per(9)
+  end
+  
+  def followers
+    @user = User.find(params[:user_id])
+    @users = @user.followers
+    @posts = Post.where(user_id: @user.followers.select(:id)).order(create_at: :desc).page(params[:page]).per(9)
+  end
+end

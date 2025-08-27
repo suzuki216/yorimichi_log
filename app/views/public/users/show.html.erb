@@ -1,14 +1,36 @@
 <div class="container my-5">
   <h3><%= @user.last_name %> <%= @user.first_name %> さんの投稿一覧</h3>
   <div class="card mb-4">
-    <div class="card-body">
-      <p><strong>名前:</strong> <%= @user.last_name %> <%= @user.first_name %></p>
+    <div class="card-body d-flex align-items-start">
+      <div class="mr-4">
+        <% if @user.image.attached? %>
+          <%= image_tag @user.image.variant(resize: "120x120"), class: "rounded-circle shadow-sm" %>
+        <% else %>
+          <%= image_tag "no_image.jpg", size: "120x120", class: "rounded-circle shadow-sm" %>
+        <% end %>
+      </div>
 
-      <% if @user == current_user %>
-        <%= link_to "プロフィール編集", edit_public_user_path(@user) %> |
-        <%= link_to "退会する", public_user_path(@user), method: :delete,
-                             "dateconfirm" => "本当に退会しますか？" %>
-      <% end %>
+      <div class="d-flex flex-column mr-4">
+        <p class="mb-2">フォロワー: <strong><%= @user.followers.count %></strong></p>
+
+        <div class="mb-2">
+          <%= render "public/follows/btn", user: @user %>
+        </div>
+
+        <% if @user == current_user %>
+          <div class="mt-2">
+            <%= link_to "プロフィール編集", edit_public_user_path(@user) %> |
+            <%= link_to "退会する", public_user_path(@user), method: :delete,
+                                 "dateconfirm" => "本当に退会しますか？" %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="flex-grow-1">
+        <p class="text-muted mb-2">
+          <%= @user.introduction.present? ? @user.introduction : "自己紹介はまだ設定されていません。" %>
+        </p>
+      </div>
     </div>
   </div>
 
