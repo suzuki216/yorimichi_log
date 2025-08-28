@@ -1,0 +1,51 @@
+<div class="container my-5">
+  <h2 class="mb-4">通報した投稿一覧</h2>
+    <% if @reports.any? %>
+      <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col" style="width: 100px;">画像</th>
+              <th scope="col">投稿タイトル</th>
+              <th scope="col">通報理由</th>
+              <th scope="col" style="width: 150px;">通報日時</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @reports.each do |report| %>
+              <tr>
+                <td class="align-middle text-center" style="width: 180px">
+                  <% if report.post.images.attached? %>
+                    <%= image_tag report.post.images.first.variant(resize: '150x150'), class: "img-thumbnail" %>
+                  <% else %>
+                    <%= image_tag "no_image_logo.png", size: "150x150", class: "img-thumbnail" %>
+                  <% end %>
+                </td>
+                <td class="align-middle">
+                  <%= link_to report.post.title, public_post_path(report.post), class: "font-weight-bold" %>
+                </td>
+                <td class="align-middle">
+                  <a data-toggle="collapse" href="#report_reason_<%= report.id %>" role="button" aria-expanded="false" aria-controls="report_reason_<%= report.id %>">
+                    <%= truncate(report.reason, length: 30) %>
+                  </a>
+                  <div class="collapse mt-1" id="report_reason_<%= report.id %>">
+                    <%= simple_format(report.reason) %>
+                  </div>
+                </td>
+  
+                <td class="align-middle">
+                  <%= report.created_at.strftime("%Y/%m/%d %H:%M") %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+  
+      <div class="d-flex justify-content-center">
+        <%= paginate @reports %>
+      </div>
+    <% else %>
+      <p class="text-center text-muted">まだ通報した投稿はありません。</p>
+    <% end %>
+</div>
