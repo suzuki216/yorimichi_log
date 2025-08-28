@@ -1,18 +1,40 @@
 <div class="container my-5">
-  <h2>ユーザー詳細</h2>
+  <h3><%= @user.last_name %> <%= @user.first_name %> さんの投稿一覧</h3>
   <div class="card mb-4">
-    <div class="card-body">
-      <p><strong>名前:</strong> <%= @user.last_name %> <%= @user.first_name %></p>
+    <div class="card-body d-flex align-items-start">
+      <div class="mr-4">
+        <% if @user.image.attached? %>
+          <%= image_tag @user.image.variant(resize: "120x120"), class: "rounded-circle shadow-sm" %>
+        <% else %>
+          <%= image_tag "no_image.jpg", size: "120x120", class: "rounded-circle shadow-sm" %>
+        <% end %>
+      </div>
 
-      <% if @user == current_user %>
-        <%= link_to "プロフィール編集", edit_public_user_path(@user) %> |
-        <%= link_to "退会する", public_user_path(@user), method: :delete,
-                             "dateconfirm" => "本当に退会しますか？" %>
-      <% end %>
+      <div class="d-flex flex-column mr-4">
+        <p class="mb-2">フォロワー: <strong><%= @user.followers.count %></strong></p>
+
+        <div class="mb-2">
+          <%= render "public/follows/btn", user: @user %>
+        </div>
+
+        <% if @user == current_user %>
+          <div class="mt-2">
+            <%= link_to "プロフィール編集", edit_public_user_path(@user) %> |
+            <%= link_to "退会する", public_user_path(@user), method: :delete,
+                                 "dateconfirm" => "本当に退会しますか？" %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="flex-grow-1">
+        <p class="text-muted mb-2">
+          <%= @user.introduction.present? ? @user.introduction : "自己紹介はまだ設定されていません。" %>
+        </p>
+      </div>
     </div>
   </div>
 
-  <h3><%= @user.last_name %> <%= @user.first_name %> さんの投稿一覧</h3>
+  
   <% if @posts.any? %>
     <div class="row">
       <% @posts.each do |post| %>
@@ -21,15 +43,18 @@
             <% if post.images.attached? %>
               <%= image_tag post.images.first.variant(resize: "400x300"), class: "card-img-top" %>
             <% else %>
-              <%= image_tag "no_image.jpg", class: "card-img-top" %>
+              <%= image_tag "no_image_logo.png", class: "card-img-top" %>
             <% end %>
             <div class="card-body">
               <h5 class="card-title"><%= link_to post.title, public_post_path(post) %></h5>
               <p class="card-text"><%= truncate(post.body, length: 50) %></p>
             </div>
             <div class="card-footer text-muted">
-              投稿日: <%= l(post.created_at, format: :short) %>
-              コメント: <%= post.comments.count %> 件
+              投稿日: <%= post.created_at.strftime("%Y/%m/%d") %><br>
+              コメント: <%= post.comments.count %> 件<br>
+              <div id="favorite_btn_<%= post.id %>">
+                <%= render "public/favorites/btn", post: post %>
+              </div>
             </div>
           </div>
         </div>

@@ -1,0 +1,43 @@
+<div class="container my-5">
+  <!-- ページタイトルとフォロー中人数 -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><%= @user.full_name %> さんがフォローしているユーザー</h2>
+  </div>
+  <span class="badge badge-primary p-2 mb-3">
+    フォロー中 <%= @user.followings.count %> 人
+  </span>
+
+  <% if @user.followings.empty? %>
+    <p class="text-center text-muted">フォローしているユーザーはいません。</p>
+  <% else %>
+    <div class="row">
+      <% @user.followings.each do |following| %>
+        <div class="col-12 col-sm-6 col-md-4 mb-4">
+          <div class="card h-100 text-center shadow-sm">
+            <!-- プロフィール画像 -->
+            <% if following.image.attached? %>
+            <%= image_tag following.image.variant(resize: '120x120'), class: "rounded-circle mt-3 d-block mx-auto", style: "width: 120px; height: 120px; object-fit: cover;", alt: following.full_name %>
+            <% else %>
+            <%= image_tag "no_image.jpg", class: "rounded-circle mt-3 d-block mx-auto", style: "width: 120px; height: 120px; object-fit: cover;", alt: following.full_name %>
+            <% end %>
+
+            <div class="card-body">
+              <!-- 名前 -->
+              <h5 class="card-title mb-2">
+                <%= link_to following.full_name, public_user_path(following), class: "text-primary" %>
+              </h5>
+
+              <!-- 簡単な自己紹介 -->
+              <p class="card-text text-muted mb-3">
+                <%= following.introduction.present? ? truncate(following.introduction, length: 60) : "自己紹介はまだありません" %>
+              </p>
+
+              <!-- フォローボタン -->
+              <%= render "public/follows/btn", user: following %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

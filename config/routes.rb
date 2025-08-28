@@ -26,15 +26,32 @@ Rails.application.routes.draw do
     get 'homes/about'
     get 'mypage', to: 'users#mypage'
     get 'users/search', to: 'users#search', as: 'user_search'
-    resources :users, only: [:edit, :update, :show, :destroy]
+    resources :users, only: [:edit, :update, :show, :destroy] do
+      resource :follows, only: [:create, :destroy]
+          get "followings" => "follows#followings", as: "followings"
+  	      get "followers" => "follows#followers", as: "followers"
+      resources :reports, only: [:index]
+    end
     resources :posts, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
       resources :comments, only: [:create, :destroy]
+      resource :favorites, only: [:create, :destroy]
+      resources :reports, only: [:create, :destroy]
+    end
+    resources :favorites, only: [:index]
+    resources :notifications, only: [:index, :destroy] do
+      collection do
+        delete :destroy_all
+      end
     end
   end
 
   namespace :admin do
     root to: 'homes#top'
     resources :users, only: [:show, :update, :destroy]
+    resources :reports, only: [:index]
+    resources :posts, only: [:index, :show, :destroy] do
+      resources :reports, only: [:index, :show]
+    end
   end
 
   root to: 'public/homes#top'

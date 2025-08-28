@@ -1,0 +1,39 @@
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><%= @user.full_name %> さんをフォローしているユーザー</h2>
+  </div>
+
+  <span class="badge badge-primary p-2 mb-3">
+    フォロワー <%= @user.followers.count %> 人
+  </span>
+
+  <% if @user.followers.empty? %>
+    <p class="text-center text-muted">フォロワーはいません。</p>
+  <% else %>
+    <div class="row">
+      <% @user.followers.each do |follower| %>
+        <div class="col-12 col-sm-6 col-md-4 mb-4">
+          <div class="card h-100 text-center shadow-sm">
+            <% if follower.image.attached? %>
+              <%= image_tag follower.image.variant(resize: '120x120'), class: "rounded-circle mt-3 d-block mx-auto", style: "width: 150px; height: 150px; object-fit: cover;", alt: follower.full_name %>
+            <% else %>
+              <%= image_tag "no_image.jpg", class: "rounded-circle mt-3 d-block mx-auto", style: "width: 120px; height: 120px; object-fit: cover;", alt: follower.full_name %>
+            <% end %>
+
+            <div class="card-body">
+              <h5 class="card-title mb-2">
+                <%= link_to follower.full_name, public_user_path(follower), class: "text-primary font-weight-bold" %>
+              </h5>
+
+              <p class="card-text text-muted mb-3">
+                <%= follower.introduction.present? ? truncate(follower.introduction, length: 60) : "自己紹介はまだありません" %>
+              </p>
+
+              <%= render "public/follows/btn", user: follower %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

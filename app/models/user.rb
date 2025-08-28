@@ -4,10 +4,20 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_one_attached :image
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+  has_many :reports, dependent: :destroy
+  has_many :favorite_posts, through: :favorites, source: :post
+  has_many :active_follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
+  has_many :passive_follows, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
+  has_many :followings, through: :active_follows, source: :followed
+  has_many :followers, through: :passive_follows, source: :follower
+  has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
+  has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
+
   validates :email, presence: true, uniqueness: true
-  
   validates :last_name, presence: true
   validates :first_name, presence: true
 
@@ -30,5 +40,16 @@ class User < ApplicationRecord
   def active_for_authentication?
     super && is_active
   end
-  
+
+  def follow(user)
+    active_follows.create(followed: user)
+  end
+
+  def unfollow(user)
+    active_follows.find_by(followed: user).destroy
+  end
+
+  def following?(user)
+    followings.include?(user)
+  end
 end

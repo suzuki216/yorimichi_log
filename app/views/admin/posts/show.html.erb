@@ -1,0 +1,87 @@
+<div class="container my-5">
+    <h2 class="mb-4">投稿詳細</h2>
+    
+    <table class="table table-bordered table-striped">
+      <tbody>
+        <tr>
+          <th scope="row" style="width: 20%;">タイトル</th>
+          <td><%= @post.title %></td>
+        </tr>
+        <tr>
+          <th scope="row">カテゴリ</th>
+          <td><%= @post.category&.name || "なし" %></td>
+        </tr>
+        <tr>
+          <th scope="row">投稿者</th>
+          <td><%= @post.user.full_name %></td>
+        </tr>
+        <tr>
+          <th scope="row">本文</th>
+          <td><%= simple_format(@post.body) %></td>
+        </tr>
+        <tr>
+          <th scope="row">いいね件数</th>
+          <td><%= @post.favorites.count %></td>
+        </tr>
+        <tr>
+          <th scope="row">コメント件数</th>
+          <td><%= @post.comments.count %></td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <% if @post.images.attached? %>
+      <div class="row mb-4">
+        <% @post.images.each do |img| %>
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+            <%= image_tag img.variant(resize:'400x400'), class: "w-100 rounded shadow-sm clickable-image", alt: @post.title, data: { toggle: "modal", target: "#imageModal", "img-url": url_for(img) } %>
+            <i class="fas fa-search position-absolute" 
+              style="bottom:8px; right:8px; color:white; text-shadow:0 0 5px black; cursor:pointer;" 
+              data-toggle="modal" 
+              data-target="#imageModal" 
+              data-img-url="<%= url_for(img) %>"></i>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="mb-4">
+        <%= image_tag 'no_image_logo.png', class: "img-thumbnail", width: 400, height: 400 %>
+      </div>
+    <% end %>
+  
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content bg-transparent border-0 position-relative p-0">
+          <button type="button" class="position-absolute border-0 bg-transparent text-white"
+                  data-dismiss="modal"
+                  style="top:-30px; right:-30px; z-index:1051; font-size:2rem; cursor:pointer;">
+            ❌
+          </button>
+          <div class="modal-body p-0">
+            <img src="" class="img-fluid" id="modalImage" alt="拡大画像">
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="mt-4">
+      <h4>コメント（<%= @post.comments.count %>件）</h4>
+      <% @post.comments.includes(:user).order(created_at: :desc).each do |comment| %>
+        <div class="card mb-2">
+          <div class="card-body d-flex p-2">
+            <div class="mr-2">
+              <i class="fa-slab fa-regular fa-circle-user fa-xl" style="color: #cc870f;"></i>
+            </div>
+            <div>
+              <strong><%= comment.user.full_name %>:</strong>
+              <p class="mb-0"><%= simple_format(comment.content) %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="mt-4">
+      <%= link_to "投稿一覧へ", admin_posts_path, class: "btn btn-success mr-2" %>
+      <%= link_to "通報一覧へ", admin_reports_path, class: "btn btn-warning" %>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light pt-3">
   <div class="container">
     <%= link_to "YorimichiLog", root_path, class: "navbar-brand" %>
 
@@ -7,41 +7,61 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
-        <% if admin_signed_in? %>
+      <% if admin_signed_in? %>
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item"><%= link_to '会員一覧', admin_root_path, class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to '通報一覧', '#', class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to '投稿一覧', '#', class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to '通報一覧', admin_reports_path, class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to '投稿一覧', admin_posts_path, class: "nav-link" %></li>
           <li class="nav-item"><%= link_to 'ログアウト', destroy_admin_session_path, method: :delete, class: "nav-link" %></li>
-        <% elsif user_signed_in? %>
-          <%= form_with url: about_path, method: :get, local: true, class: "form-inline my-2 my-lg-0" do |f| %>
-            <%= f.text_field :keyword,
-                  placeholder: "キーワード検索",
-                  class: "form-control mr-sm-2" %>
-            <%= f.text_field :category_name,
-                  placeholder: "カテゴリ検索",
-                  class: "form-control mr-sm-2" %>
-            <%= f.submit "検索", class: "btn btn-outline-success my-2 my-sm-0" %>
-          <% end %>
+        </ul>
+      <% elsif user_signed_in? %>
+        <div class="d-flex flex-wrap w-100 justify-content-between align-items-center">
 
-          <%= form_with url: public_user_search_path, method: :get, local: true, class: "form-inline" do |f| %>
-            <%= f.text_field :user_keyword, placeholder: "ユーザー名検索", class: "form-control mr-sm-2" %>
-            <%= f.submit "検索", class: "btn btn-outline-primary my-2 my-sm-0" %>
-          <% end %>
-      
-          <li class="nav-item"><%= link_to 'about', about_path, class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to 'マイページ', public_mypage_path, class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to '新規投稿', new_public_post_path, class: "nav-link" %></li>
+          <div class="d-flex flex-wrap">
+            <%= form_with url: about_path, method: :get, local: true, class: "form-inline mr-2 mb-2 mb-lg-0" do |f| %>
+              <%= f.text_field :keyword, placeholder: "キーワード検索", class: "form-control mr-2 mb-1 mb-lg-0" %>
+              <%= f.text_field :category_name, placeholder: "カテゴリ検索", class: "form-control mr-2 mb-1 mb-lg-0" %>
+              <%= f.submit "検索", class: "btn btn-outline-success mb-1 mb-lg-0" %>
+            <% end %>
 
-          <li class="nav-item"><%= link_to '通知一覧', '#', class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "nav-link" %></li>
-        <% else %>
+            <%= form_with url: public_user_search_path, method: :get, local: true, class: "form-inline mb-2 mb-lg-0" do |f| %>
+              <%= f.text_field :user_keyword, placeholder: "ユーザー名検索", class: "form-control mr-2 mb-1 mb-lg-0" %>
+              <%= f.submit "検索", class: "btn btn-outline-primary mb-1 mb-lg-0" %>
+            <% end %>
+          </div>
+
+          <ul class="navbar-nav ml-auto d-flex flex-wrap">
+            <li class="nav-item"><%= link_to 'about', about_path, class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to 'マイページ', public_mypage_path, class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to '新規投稿', new_public_post_path, class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to 'いいね一覧', public_favorites_path, class: "nav-link" %></li>
+            <li class="nav-item">
+              <%= link_to public_notifications_path, class: "nav-link position-relative" do %>
+                通知
+                <% unread_count = current_user.passive_notifications.where(checked: false).count %>
+                <% if unread_count > 0 %>
+                  <span class="badge badge-danger" style="
+                    position: absolute;
+                    top: 50%;
+                    right: 0;
+                    transform: translate(50%, -50%);
+                    font-size: 0.7rem;
+                  ">
+                    <%= unread_count %>
+                  </span>
+                <% end %>
+              <% end %>
+            </li>
+            <li class="nav-item"><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "nav-link" %></li>
+          </ul>
+        </div>
+      <% else %>
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item"><%= link_to '新規登録', new_user_registration_path, class: "nav-link" %></li>
           <li class="nav-item"><%= link_to 'ログイン', new_user_session_path, class: "nav-link" %></li>
           <li class="nav-item"><%= link_to 'ゲストログイン', users_guest_sign_in_path, method: :post, class: "nav-link" %></li>
-        <% end %>
-      </ul>
+        </ul>
+      <% end %>
     </div>
   </div>
 </nav>
-

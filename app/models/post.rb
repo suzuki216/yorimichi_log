@@ -7,6 +7,7 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :reports, dependent: :destroy
+  has_many :favorites, dependent: :destroy
   has_many_attached :images
   
   attr_accessor :category_name, :remove_image_ids
@@ -14,6 +15,30 @@ class Post < ApplicationRecord
   validates :title, :body, presence: true
 
   after_save :remove_selected_images
+
+  def favorited_by?(user)
+    favorites.exists?(user_id: user.id)
+  end
+
+  def create_notification_comment!(current_user, comment_id)
+    notification = current_user.active_notifications.new(
+      visited_id: user_id, # 投稿者
+      post_id: id,
+      comment_id: comment_id,
+      action: 'comment'
+    )
+    notification.save if notification.valid?
+  end
+
+  def create_notification_favorite!(current_user)
+    notification = current_user.active_notifications.new(
+      visited_id: user_id,
+      post_id: id,
+      action: 'favorite'
+    )
+    notification.save if notification.valid?
+  end
+  
 
   private
 
