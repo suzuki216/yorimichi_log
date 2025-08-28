@@ -50,6 +50,8 @@ ja:
         category: "カテゴリを"
       comment:
         content: "コメントを"
+      report:
+        reason: "通報理由を"
             
   time:
     formats:
