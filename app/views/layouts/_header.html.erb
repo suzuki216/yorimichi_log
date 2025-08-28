@@ -10,8 +10,8 @@
       <% if admin_signed_in? %>
         <ul class="navbar-nav ml-auto">
           <li class="nav-item"><%= link_to '会員一覧', admin_root_path, class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to '通報一覧', '#', class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to '投稿一覧', '#', class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to '通報一覧', admin_reports_path, class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to '投稿一覧', admin_posts_path, class: "nav-link" %></li>
           <li class="nav-item"><%= link_to 'ログアウト', destroy_admin_session_path, method: :delete, class: "nav-link" %></li>
         </ul>
       <% elsif user_signed_in? %>
@@ -35,12 +35,21 @@
             <li class="nav-item"><%= link_to 'マイページ', public_mypage_path, class: "nav-link" %></li>
             <li class="nav-item"><%= link_to '新規投稿', new_public_post_path, class: "nav-link" %></li>
             <li class="nav-item"><%= link_to 'いいね一覧', public_favorites_path, class: "nav-link" %></li>
-            <li class="nav-item position-relative">
-              <%= link_to "通知", public_notifications_path, class: "nav-link" %>
-              <% if current_user.passive_notifications.where(checked: false).any? %>
-                <span class="badge badge-danger position-absolute" style="top:0; right:0; transform: translate(50%, -50%);">
-                  <%= current_user.passive_notifications.where(checked: false).count %>
-                </span>
+            <li class="nav-item">
+              <%= link_to public_notifications_path, class: "nav-link position-relative" do %>
+                通知
+                <% unread_count = current_user.passive_notifications.where(checked: false).count %>
+                <% if unread_count > 0 %>
+                  <span class="badge badge-danger" style="
+                    position: absolute;
+                    top: 50%;
+                    right: 0;
+                    transform: translate(50%, -50%);
+                    font-size: 0.7rem;
+                  ">
+                    <%= unread_count %>
+                  </span>
+                <% end %>
               <% end %>
             </li>
             <li class="nav-item"><%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: "nav-link" %></li>
