@@ -37,4 +37,4 @@
 - 画像素材については、以下の外部サービスを利用しています。  
 
   - Pixabay (https://pixabay.com/)
-。
+  - いらすとや(https://www.irasutoya.com/)
