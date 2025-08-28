@@ -16,7 +16,7 @@
         <div class="me-4 flex-grow-1">
           <p class="card-text mb-2"><strong>メール：</strong> <%= @user.email %></p>
           <p class="text-muted mb-0">
-            <%= @user.introduction.present? ? @user.introduction : "自己紹介はまだ設定されていません。" %>
+            <%= @user.introduction.present? ? @user.introduction : "自己紹介" %>
           </p>
         </div>
   
@@ -52,7 +52,7 @@
                 <% if post.images.attached? %>
                   <%= image_tag post.images.first.variant(resize: '400x400'), class: "img-thumbnail" %>
                 <% else %>
-                  <span class="text-muted">画像なし</span>
+                <%= image_tag 'no_image_logo.png', class: "img-thumbnail", alt: "No Image" %>
                 <% end %>
               </td>
               <td class="align-middle">

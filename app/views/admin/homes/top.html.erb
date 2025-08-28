@@ -15,7 +15,18 @@
             <% @users.each do |user| %>
               <tr>
                 <td>
-                  <%= link_to "#{user.last_name} #{user.first_name}", admin_user_path(user), class: "text-decoration-none" %>
+                  <div class="d-flex align-items-center">
+                    <div class="mr-3">
+                      <% if user.image.attached? %>
+                        <%= image_tag user.image.variant(resize: "100x100"), class: "rounded-circle" %>
+                      <% else %>
+                        <%= image_tag "no_image.jpg", class: "rounded-circle", size: "100x100" %>
+                      <% end %>
+                    </div>
+                    <div>
+                      <%= link_to "#{user.last_name} #{user.first_name}", admin_user_path(user), class: "text-decoration-none" %>
+                    </div>
+                  </div>
                 </td>
                 <td><%= user.email %></td>
                 <td><%= user.created_at.strftime("%Y-%m-%d") %></td>

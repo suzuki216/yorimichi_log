@@ -48,6 +48,10 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'homes#top'
     resources :users, only: [:show, :update, :destroy]
+    resources :reports, only: [:index]
+    resources :posts, only: [:index, :show, :destroy] do
+      resources :reports, only: [:index, :show]
+    end
   end
 
   root to: 'public/homes#top'

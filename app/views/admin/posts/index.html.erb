@@ -1,0 +1,60 @@
+<div class="container my-5">
+    <h2 class="mb-4">投稿一覧</h2>
+  
+      <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">投稿者</th>
+            <th scope="col">タイトル</th>
+            <th scope="col">画像</th>
+            <th scope="col">通報件数</th>
+            <th scope="col">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @posts.each do |post| %>
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <% if post.user.image.attached? %>
+                    <%= image_tag post.user.image.variant(resize_to_limit: [100, 100]), class: "rounded-circle mr-2" %>
+                  <% else %>
+                    <%= image_tag 'no_image.jpg', width: 100, height: 100, class: "rounded-circle mr-2" %>
+                  <% end %>
+                  <div>
+                    <div><%= post.user.email %></div>
+                    <div class="text-muted" style="font-size:0.8rem;"><%= post.created_at.strftime("%Y-%m-%d %H:%M") %></div>
+                  </div>
+                </div>
+              </td>
+              <td><%= link_to truncate(post.title, length: 30), admin_post_path(post), class: "text-decoration-none" %></td>
+              <td>
+                <% if post.images.attached? %>
+                  <%= image_tag post.images.first.variant(resize_to_limit: [150, 150]), class: "img-thumbnail" %>
+                <% else %>
+                  <%= image_tag 'no_image_logo.png', class: "img-thumbnail", size: "150x150" %>
+                <% end %>
+              </td>
+  
+              <td class="text-center">
+                <% if post.reports.any? %>
+                  <span class="badge badge-danger"><%= post.reports.count %></span>
+                <% else %>
+                  0
+                <% end %>
+              </td>
+  
+              <td class="text-center">
+                <%= link_to '削除', admin_post_path(post), method: :delete,
+                            data: { confirm: '本当に削除しますか？' },
+                            class: 'btn btn-danger btn-sm text-nowrap' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <div class="d-flex justify-content-center mt-3">
+      <%= paginate @posts %>
+    </div>
+  </div>
+  

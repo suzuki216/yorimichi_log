@@ -43,7 +43,7 @@
             <% if post.images.attached? %>
               <%= image_tag post.images.first.variant(resize: "400x300"), class: "card-img-top" %>
             <% else %>
-              <%= image_tag "no_image.jpg", class: "card-img-top" %>
+              <%= image_tag "no_image_logo.png", class: "card-img-top" %>
             <% end %>
             <div class="card-body">
               <h5 class="card-title"><%= link_to post.title, public_post_path(post) %></h5>

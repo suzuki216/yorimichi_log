@@ -31,16 +31,20 @@
   </table>
 
   <!-- 画像表示 -->
-  <% if @post.images.attached? %>
-    <div class="row mb-4">
+  <div class="row mb-4">
+    <% if @post.images.attached? %>
       <% @post.images.each_with_index do |img, index| %>
-        <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-3 position-relative">
           <%= image_tag img.variant(resize:'400x400'), class: "w-100 rounded shadow-sm clickable-image", alt: @post.title, data: { toggle: "modal", target: "#imageModal", "img-url": url_for(img) } %>
           <i class="fas fa-search position-absolute" style="bottom:8px; right:8px; color:white; text-shadow:0 0 5px black; cursor:pointer;" data-toggle="modal" data-target="#imageModal" data-img-url="<%= url_for(img) %>"></i>
         </div>
       <% end %>
-    </div>
-  <% end %>
+    <% else %>
+      <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+        <%= image_tag 'no_image_logo.png', class: "w-100 rounded shadow-sm", alt: "No Image" %>
+      </div>
+    <% end %>
+  </div>
 
   <!-- 画像拡大モーダル -->
   <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -67,7 +71,7 @@
     </div>
   <% end %>
 
-  <!-- 投稿一覧ボタンと通報ボタンを右上配置 -->
+  <!-- 投稿一覧ボタンを左側、通報ボタンを右側配置 -->
   <div class="d-flex justify-content-between mb-4">
     <%= link_to "投稿一覧に戻る", about_path, class: "btn btn-success" %>
 

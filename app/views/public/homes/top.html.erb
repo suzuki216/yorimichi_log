@@ -36,6 +36,8 @@
           <div class="card h-100 shadow-sm">
             <% if post.images.attached? %>
               <%= image_tag post.images.first, class: "card-img-top", alt: post.title %>
+            <% else %>
+              <%= image_tag 'no_image_logo.png', class: "card-img-top", alt: "No Image" %>
             <% end %>
             <div class="card-body">
               <h5 class="card-title"><%= link_to post.title, public_post_path(post) %></h5>
