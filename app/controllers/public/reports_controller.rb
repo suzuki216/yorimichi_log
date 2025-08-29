@@ -1,5 +1,5 @@
 class Public::ReportsController < ApplicationController
-
+  before_action :check_guest, only: [:create, :destroy]
   def index
     @reports = current_user.reports.includes(:post).order(created_at: :desc).page(params[:page]).per(10)
   end
@@ -27,5 +27,11 @@ class Public::ReportsController < ApplicationController
   private
   def report_params
     params.require(:report).permit(:reason)
+  end
+
+  def check_guest
+    if current_user&.guest?
+      redirect_to request.referrer || root_path, alert: "ゲストユーザーは操作できません"
+    end
   end
 end

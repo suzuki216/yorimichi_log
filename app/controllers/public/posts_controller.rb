@@ -86,7 +86,7 @@ class Public::PostsController < ApplicationController
 
   def guest_cannot_modify
     if current_user&.guest?
-      redirect_to about_path, alert: "ゲストユーザーは閲覧のみ可能です。新規登録してください。"
+      redirect_to about_path, alert: "ゲストユーザーは操作が制限されています。新規登録してください。"
     end
   end
 end

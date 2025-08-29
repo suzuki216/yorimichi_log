@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!, if: :user_signed_in?
+  before_action :authenticate_user!, unless: :admin_namespace?
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :check_active, if: :user_signed_in?
 
@@ -33,5 +33,8 @@ class ApplicationController < ActionController::Base
       reset_session
       redirect_to root_path, alert: "退会済みのアカウントです。"
     end
+  end
+  def admin_namespace?
+    self.class.module_parent == Admin
   end
 end
